@@ -6,6 +6,7 @@ from models import *
 
 app = Flask(__name__)
 
+
 @app.route('/student', methods=['GET'])
 def show_students():
     students = hw_get_students(session)
@@ -33,7 +34,7 @@ def get_student(id):
 def remove_student(id):
     hw_remove_student(id, session)
     session.close()
-    return make_response(json.dumps({'message': id}))
+    return make_response(json.dumps({'message': f'{id} was removed'}))
 
 
 @app.route('/student', methods=['PUT'])
@@ -92,14 +93,24 @@ def add_student_to_class(class_name):
 def get_students_by_class(student_id):
 
     res = hw_list_student_class(student_id, session)
+    session.close()
     return make_response(json.dumps(res))
 
 @app.route('/note', methods=['POST'])
 def add_student_notes():
     data = request.get_json()
-    hw_add_student_notes(data, session)
-    return make_response(json.dumps({"message": "sera"}))
+    notes = hw_add_student_notes(data, session)
+    session.close()
+    return make_response(json.dumps(notes))
+
+@app.route('/notes/student', methods=['GET'])
+def list_student_notes():
+    notes = hw_list_student_note(session)
+    return make_response(json.dumps(notes))
+
+
 
 if __name__ == '__main__':
     session = create_session()
+    hw_relatorio(session)
     app.run(debug=True)

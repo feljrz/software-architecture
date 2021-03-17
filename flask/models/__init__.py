@@ -6,4 +6,4 @@ from .model import (Student, Class, Note)
 from .class_db import (hw_add_class, hw_get_classes,
                      hw_get_class, hw_remove_class, hw_update_class, hw_get_students_by_class, hw_add_student_to_class)
 
-from .notes_db import (hw_add_student_notes)
+from .notes_db import (hw_add_student_notes, hw_list_student_note, hw_relatorio)
