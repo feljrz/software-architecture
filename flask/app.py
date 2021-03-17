@@ -1,8 +1,8 @@
 from flask import Flask, url_for, request, json, jsonify, make_response
-from models import hw_get_students, create_session, hw_add_student, hw_get_student, hw_remove_student, hw_update_student, hw_add_class, hw_get_classes,hw_get_class, hw_remove_class, hw_update_class, create_session
+# from models import (hw_get_students_by_class, hw_list_student_class, hw_add_student_to_class, hw_get_students, create_session, hw_add_student, hw_get_student, hw_remove_student, hw_update_student, 
+# hw_add_class, hw_get_classes,hw_get_class, hw_remove_class, hw_update_class, create_session)
 
-# from . import models.get_students
-
+from models import *
 
 app = Flask(__name__)
 
@@ -80,11 +80,26 @@ def update_class():
     session.close()
     return make_response(json.dumps(data))
 
+@app.route('/student/<class_name>', methods=['POST'])
+def add_student_to_class(class_name):
+    data = request.get_json()
+    list_class = hw_add_student_to_class(data, class_name, session)
+    return make_response(json.dumps(list_class))
+
+
+###################################RELATIONSHIP####################################################
+@app.route('/classes/student/<student_id>', methods=['GET'])
+def get_students_by_class(student_id):
+
+    res = hw_list_student_class(student_id, session)
+    return make_response(json.dumps(res))
+
+@app.route('/note', methods=['POST'])
+def add_student_notes():
+    data = request.get_json()
+    hw_add_student_notes(data, session)
+    return make_response(json.dumps({"message": "sera"}))
 
 if __name__ == '__main__':
-
     session = create_session()
-
-
-
     app.run(debug=True)

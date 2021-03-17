@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import DatabaseError
 from sqlalchemy.orm import sessionmaker, relationship
 from .model import Base, Class, Student
+from .class_db import populate_class
 import json
 import os 
 
@@ -62,14 +63,21 @@ def hw_update_student(student, session):
     print('\n\n---------------------------------hw_update_student------------------------------------\n\n')
     student_id = student['student_id']
     curr_student = hw_get_student(student_id, session)[0]
-   
 
     hw_remove_student(curr_student['student_id'], session)
     hw_add_student(student, session)
     session.commit()
 
+def hw_list_student_class(student_id, session):
+    student = session.query(Student).filter(Student.student_id == student_id).first()
+    list_class = populate_class(student.classes)
 
-# session = _create_session()
+    return list_class
+
+
+
+
+
 
 
 
