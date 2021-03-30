@@ -30,11 +30,12 @@ def get_student(id):
     # print(f'1: {request.args[0]}')
     return make_response(json.dumps(student))
 
-@app.route('/student/<id>', methods=['DELETE'])
-def remove_student(id):
-    hw_remove_student(id, session)
-    session.close()
-    return make_response(json.dumps({'message': f'{id} was removed'}))
+# @app.route('/student/<id>', methods=['DELETE'])
+# def remove_student(id):
+#     hw_remove_student(id, session)
+#     res = {'message': f'{id} was removed'}
+#     session.close()
+#     return make_response(json.dumps(res))
 
 
 @app.route('/student', methods=['PUT'])
@@ -112,5 +113,5 @@ def list_student_notes():
 
 if __name__ == '__main__':
     session = create_session()
-    hw_relatorio(session)
-    app.run(debug=True)
+    # hw_relatorio(session)
+    app.run(debug=True,  host='0.0.0.0')

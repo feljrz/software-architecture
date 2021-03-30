@@ -15,7 +15,7 @@ import os
 
 def create_session():
     basedir = os.path.abspath(os.path.dirname(__file__))
-    db_url = 'sqlite:///' +os.path.join(basedir,'students.db')
+    db_url = 'sqlite:///' + os.path.join(basedir,'students.db')
 
     if not db_url:
         raise DatabaseError

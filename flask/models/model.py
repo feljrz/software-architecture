@@ -10,15 +10,6 @@ student_class = Table(
     Column('class_id', Integer, ForeignKey("class.id")),
 )
 
-
-# student_notes = Table(
-#     'student_notes', Base.metadata,
-#     Column('id', Integer, ForeignKey('note.id')),
-#     Column('student_id', Integer, ForeignKey('student.student_id')),
-#     Column('class_id', Integer, ForeignKey('class.class_id')),
-# )
-
-
 student_notes = Table(
     'student_notes', Base.metadata,
     Column('note_id', Integer, ForeignKey("note.id")),
