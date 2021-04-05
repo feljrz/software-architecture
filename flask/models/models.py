@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, Table, Sequence, ForeignKey, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
+from database import Base
 
-Base = declarative_base()
+
 
 student_class = Table(
     'student_class', Base.metadata,

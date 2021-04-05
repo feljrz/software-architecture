@@ -1,5 +1,5 @@
 from sqlalchemy.exc import DatabaseError
-from .model import Base, Class, Student, Note
+from .models import Base, Class, Student, Note
 from .student_db import hw_get_student
 from .class_db import hw_get_class
 

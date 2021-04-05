@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.exc import DatabaseError
 from sqlalchemy.orm import sessionmaker, relationship
-from .model import Base, Class, Student
+from .models import Base, Class, Student
 from .class_db import populate_class
 import json
 import os 

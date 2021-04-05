@@ -1,0 +1,34 @@
+version: "3.3"
+
+networks:
+  student-network:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
+services:
+  students_app:
+    build: .
+    container_name: students_app_container
+    depends_on:
+      - postgres-server
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:12345678@172.20.0.6:5432/students_db"
+    networks:
+      student-network:
+        ipv4_address: 172.20.0.5
+
+  postgres-server:
+    image: postgres
+    container_name: students_app_postgreSQL
+    environment:
+      POSTGRES_PASSWORD: "12345678"
+    ports:
+      - "5432:5432"
+    volumes:
+      - /home/felipe/Documents/ASA/Trabalhos/aula_1/Trab1/volumes:/var/lib/postgres/data
+    networks:
+      student-network:
+        ipv4_address: 172.20.0.6
