@@ -1,5 +1,5 @@
 from .student_db import (hw_list_student_class, hw_add_student, hw_get_student,
-                     hw_get_students, hw_remove_student, hw_update_student, create_session)
+                     hw_get_students, hw_remove_student, hw_update_student)
 
 from .models import (Student, Class, Note)
 

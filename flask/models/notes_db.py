@@ -2,7 +2,7 @@ from sqlalchemy.exc import DatabaseError
 from .models import Base, Class, Student, Note
 from .student_db import hw_get_student
 from .class_db import hw_get_class
-
+from database import SessionLocal
 import json
 
 def populate_note(note_obj):
@@ -35,7 +35,8 @@ def populate_note(note_obj):
 #     session.commit()
 #     return notes
 
-def hw_add_student_notes(request, session):
+def hw_add_student_notes(request):
+    session = SessionLocal()
     print('\n\n---------------------------------ADD_STUDENT------------------------------------\n\n')
     print(request)
     students = session.query(Student).filter(Student.id == request['student_id']).all()
@@ -48,14 +49,15 @@ def hw_add_student_notes(request, session):
     new_note.note = request['note']
     session.add(new_note)
     session.commit()
+    session.close()
     note = populate_note([new_note])
     return note
 
 
 
 
-def hw_list_student_note(session):
-
+def hw_list_student_note():
+    session = SessionLocal()
     students = session.query(Student).order_by(Student.first_name.asc()).all()
     notes = []
     for student in students:
@@ -65,17 +67,20 @@ def hw_list_student_note(session):
         notes.append(populate_note(student_notes))
         for note_obj in student_notes:
             print(note_obj.note)
-    
+
+    session.close()
+
     return notes
 
-def hw_relatorio(session):
+def hw_relatorio():
+    session = SessionLocal()
     students = session.query(Student).order_by(Student.first_name.asc()).all()
     print('\n\n---------------------------------RELATORIO------------------------------------\n\n')
     relatorio = []
     for student in students:
         student_notes = student.notes 
         for note_obj in student_notes:
-            class_name = hw_get_class(note_obj.class_id, session)[0]['class_name']
+            class_name = hw_get_class(note_obj.class_id)[0]['class_name'] # **
             # print(class_name)
             echo = f'\n Disciplina | Nota \n {class_name}    {note_obj.note} \n\n -----------------'
             relatorio.append(echo)
@@ -83,6 +88,7 @@ def hw_relatorio(session):
     
         relatorio.append(f'\n ALUNO(A): {student.first_name}')
     
+    session.close()
     for e in relatorio:
         print(e)
 
